@@ -1,0 +1,249 @@
+/* Reset some default browser styles */
+@media only screen and (max-width:767px){
+body, h1, p, form {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+}
+
+h1 {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px;#42445A
+    position:fixed;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Styling for news articles on the reading page */
+#news-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.news-item {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+}
+
+.news-item img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Styling for the form on the writing page */
+#news-form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+}
+
+#news-form label {
+    font-weight: bold;
+}
+
+#news-form input[type="text"],
+#news-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#news-form button[type="submit"] {
+    background-color: #333;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#news-form button[type="submit"]:hover {
+    background-color: #555;
+}
+#newsImg{
+  width: 80%;
+  margin-left: 10%;
+  border-radius: 20px;
+  margin-top:10px;
+}
+h2{
+  font-style: bold;
+  font-size: 20px;
+  color: darkslategrey;
+}
+.container2{
+    margin: 0 auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+.head{
+  
+ 
+}
+#news-list{
+margin: 20px;
+}
+.logo{
+  text-align: left;
+  color: lightslategrey;
+  font-style: bold;
+  font-size: 30px;
+  width: 30%;
+}
+.logotext{
+  color:grey;
+}
+.date-time,.logo{
+  display: inline-block;
+}
+.date-time{
+    text-align: right;
+    width:100%;
+    color: lightslategray;
+}
+}
+@media only screen and (min-width:992px){
+    body, h1, p, form {
+        margin: 0;
+        padding: 0;
+    }
+    
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+    }
+    
+    h1 {
+        background-color: #333;
+        color: white;
+        text-align: center;
+        padding: 10px;#42445A
+        position:fixed;
+    }
+    
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: white;
+        border-radius: 5px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    }
+    
+    /* Styling for news articles on the reading page */
+    #news-list {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .news-item {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+    }
+    
+    .news-item img {
+        max-width: 100%;
+        height: auto;
+    }
+    
+    /* Styling for the form on the writing page */
+    #news-form {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+    }
+    
+    #news-form label {
+        font-weight: bold;
+    }
+    
+    #news-form input[type="text"],
+    #news-form textarea {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+    
+    #news-form button[type="submit"] {
+        background-color: #333;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    
+    #news-form button[type="submit"]:hover {
+        background-color: #555;
+    }
+    #newsImg{
+      width: 50%;
+      margin-left: 20%;
+      border-radius: 20px;
+      margin-top:10px;
+    }
+    h2{
+      font-style: bold;
+      font-size: 20px;
+      color: darkslategrey;
+    }
+    .container2{
+        margin: 0 auto;
+        padding: 20px;
+        background-color: white;
+        border-radius: 5px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    }
+    .head{
+      
+     
+    }
+    #news-list{
+    margin: 20px;
+    }
+    .logo{
+      text-align: left;
+      color: lightslategrey;
+      font-style: bold;
+      font-size: 30px;
+      width: 30%;
+    }
+    .logotext{
+      color:grey;
+    }
+    .date-time,.logo{
+      display: inline-block;
+    }
+    .date-time{
+        text-align: right;
+        width:100%;
+        color: lightslategray;
+    }
+}
