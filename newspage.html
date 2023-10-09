@@ -1,65 +1,78 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta name="viewport"content="Width=divice-width,initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daily News</title>
-        <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-firestore.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-storage.js"></script>
-<!-- Include the Firebase JavaScript SDK -->
-<!-- Include other Firebase services if you're using them (e.g., Firebase Storage, Firebase Messaging, etc.) -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-storage.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-messaging.js"></script> <!-- Add Firebase Messaging SDK -->
     <!-- Include CSS and JS files -->
-  <!-- PushAlert -->
-<script type="text/javascript">
-        (function(d, t) {
-                var g = d.createElement(t),
+    <!-- PushAlert -->
+    <script type="text/javascript">
+        (function (d, t) {
+            var g = d.createElement(t),
                 s = d.getElementsByTagName(t)[0];
-                g.src = "https://cdn.pushalert.co/integrate_a4df22ddd5ed5171e36f2f4bf4c07d83.js";
-                s.parentNode.insertBefore(g, s);
+            g.src = "https://cdn.pushalert.co/integrate_a4df22ddd5ed5171e36f2f4bf4c07d83.js";
+            s.parentNode.insertBefore(g, s);
         }(document, "script"));
-</script>
-<!-- End PushAlert -->
+    </script>
+    <!-- End PushAlert -->
 </head>
 <body>
-    <header class="head">
-        <h1>Daily News</h1>
-    </header>
-    <main>
-        <section id="news-list">
-            <!-- News articles will be displayed here -->
-        </section>
-    </main>
-    <footer>
-        <!-- Footer content -->
-    </footer>
-    <script type="module">
-        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.0.2/firebase-app.js';
-import { getFirestore, collection, getDocs } from 'https://www.gstatic.com/firebasejs/9.0.2/firebase-firestore.js';
-import { getStorage } from 'https://www.gstatic.com/firebasejs/9.0.2/firebase-storage.js';
-// Initialize Firebase
-const firebaseConfig = {
-    apiKey: "AIzaSyBEw7edw-jRq47N_d1fJUvBSVnROJ6eCcE",
-    authDomain: "messanger-817c9.firebaseapp.com",
-    projectId: "messanger-817c9",
-    storageBucket: "messanger-817c9.appspot.com",
-    messagingSenderId: "678307855723",
-    appId: "1:678307855723:web:ac21ee338a71dd34f9602e"
-};
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-// Fetch news data from Firestore and prepend to the list
-document.addEventListener("DOMContentLoaded", function() {
-   const newsList = document.getElementById("news-list");
-   // Use Firestore to get the collection of news articles
-   const newsCollection = collection(db, "news");
-   getDocs(newsCollection).then((querySnapshot) => {
-      // Function to format date and time
-       // Loop through each news article in the Firestore collection
-       querySnapshot.forEach((doc) => {
-           const newsData = doc.data(); // Get the data of the news article
-           // Create HTML elements to display news
-           const newsItem = document.createElement("div"); // Create a container for the news article
-           newsItem.innerHTML = `
+<header class="head">
+    <h1>Daily News</h1>
+</header>
+<main>
+    <section id="news-list">
+        <!-- News articles will be displayed here -->
+    </section>
+</main>
+<footer>
+    <!-- Footer content -->
+</footer>
+<script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.0.2/firebase-app.js';
+    import { getFirestore, collection, getDocs } from 'https://www.gstatic.com/firebasejs/9.0.2/firebase-firestore.js';
+    import { getStorage } from 'https://www.gstatic.com/firebasejs/9.0.2/firebase-storage.js';
+    import { getMessaging } from 'https://www.gstatic.com/firebasejs/9.0.2/firebase-messaging.js'; // Initialize Firebase Messaging
+    // Initialize Firebase
+    const firebaseConfig = {
+        apiKey: "AIzaSyBEw7edw-jRq47N_d1fJUvBSVnROJ6eCcE",
+        authDomain: "messanger-817c9.firebaseapp.com",
+        projectId: "messanger-817c9",
+        storageBucket: "messanger-817c9.appspot.com",
+        messagingSenderId: "678307855723",
+        appId: "1:678307855723:web:ac21ee338a71dd34f9602e"
+    };
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const messaging = getMessaging(app); // Initialize Firebase Messaging
+
+    // Request notification permission
+    messaging.requestPermission().then(() => {
+        console.log('Notification permission granted.');
+        return messaging.getToken();
+    }).then((token) => {
+        console.log('FCM token:', token);
+        // Save the token or send it to your server for future notifications
+    }).catch((error) => {
+        console.error('Notification permission denied:', error);
+    });
+
+    // Fetch news data from Firestore and prepend to the list
+    document.addEventListener("DOMContentLoaded", function () {
+        const newsList = document.getElementById("news-list");
+        // Use Firestore to get the collection of news articles
+        const newsCollection = collection(db, "news");
+        getDocs(newsCollection).then((querySnapshot) => {
+            // Function to format date and time
+            // Loop through each news article in the Firestore collection
+            querySnapshot.forEach((doc) => {
+                const newsData = doc.data(); // Get the data of the news article
+                // Create HTML elements to display news
+                const newsItem = document.createElement("div"); // Create a container for the news article
+                newsItem.innerHTML = `
            <div class='container2'>
                <p class='logo'>📖 Daily News<p>
                 <p class="date-time"> Updated at : ${newsData.timestamp}</p>
@@ -72,19 +85,15 @@ document.addEventListener("DOMContentLoaded", function() {
                </div>
            `;
 
-           // Prepend newsItem to the beginning of the newsList
-           
-          
-           newsList.appendChild(newsItem);
-          
+                // Prepend newsItem to the beginning of the newsList
+                newsList.appendChild(newsItem);
 
-
-           // This line adds the news article to the top of the list, ensuring the newest articles appear first.
-       });
-   });
-});
-    </script>
-    <link rel="stylesheet" type="text/css" href="styles.css">
-
+                // This line adds the news article to the top of the list, ensuring the newest articles appear first.
+            });
+        });
+    });
+</script>
+<link rel="stylesheet" type="text/css" href="styles.css">
 </body>
 </html>
+
