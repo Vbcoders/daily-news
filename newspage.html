@@ -8,15 +8,6 @@
     <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-firestore.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-storage.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-messaging.js"></script>
-    <!-- PushAlert -->
-    <script type="text/javascript">
-        (function(d, t) {
-            var g = d.createElement(t),
-            s = d.getElementsByTagName(t)[0];
-            g.src = "https://cdn.pushalert.co/integrate_a4df22ddd5ed5171e36f2f4bf4c07d83.js";
-            s.parentNode.insertBefore(g, s);
-        }(document, "script"));
-    </script>
 </head>
 <body>
 <header class="head">
@@ -74,19 +65,14 @@
             });
     }
 
-    // Ask for notification permissions
-    if ('Notification' in window) {
-        if (Notification.permission === 'granted') {
-            // Permission already granted
-        } else if (Notification.permission !== 'denied') {
-            Notification.requestPermission().then(function (permission) {
-                if (permission === 'granted') {
-                    // Permission granted
-                } else {
-                    // Permission denied
-                }
-            });
-        }
+    // Function to send notifications for each news update
+    function sendNotificationsForNewsUpdates(querySnapshot) {
+        // Loop through each news article in the Firestore collection
+        querySnapshot.forEach((doc) => {
+            const newsData = doc.data();
+            // Send push notification for each news update
+            sendPushNotification(newsData.title, newsData.imageUrl);
+        });
     }
 
     document.addEventListener("DOMContentLoaded", async function() {
@@ -113,11 +99,30 @@
                 </div>
             `;
             newsList.appendChild(newsItem);
-
-            // Send push notification
-            sendPushNotification(newsData.title, newsData.imageUrl);
         });
+
+        // If notification permission is granted, send notifications for each news update
+        if (Notification.permission === 'granted') {
+            sendNotificationsForNewsUpdates(querySnapshot);
+        }
     });
+
+    // Ask for notification permissions
+    if ('Notification' in window) {
+        if (Notification.permission === 'granted') {
+            // Permission already granted
+        } else if (Notification.permission !== 'denied') {
+            Notification.requestPermission().then(function (permission) {
+                if (permission === 'granted') {
+                    // Permission granted
+                    // If notification permission is granted, send notifications for each news update
+                    sendNotificationsForNewsUpdates(querySnapshot);
+                } else {
+                    // Permission denied
+                }
+            });
+        }
+    }
 </script>
 <link rel="stylesheet" type="text/css" href="styles.css">
 </body>
