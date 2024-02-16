@@ -28,41 +28,55 @@
         projectId: "messanger-817c9",
         storageBucket: "messanger-817c9.appspot.com",
         messagingSenderId: "678307855723",
-        appId: "1:678307855723:web:ac21ee338a71dd34f9602e"
+        appId: "1:678307855723:web:ac21ee338a71dd34f9602e",
+        measurementId: "G-measurement-id" // You can remove this if not using Analytics
     };
     
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
     const messaging = getMessaging(app);
 
-  function sendPushNotification(title, imageUrl) {
-    // Prepare the notification payload
-    const notification = {
-        title: title,
-        imageUrl: imageUrl,
-        // Add any other notification properties as needed
-    };
-
-    // Prepare the FCM message
-    const message = {
-        notification: notification,
-        // Add any other message properties as needed
-        topic: 'news_updates', // Specify the topic to which the notification will be sent
-    };
-
-    // Send the FCM message
-    messaging.send(message)
-        .then((response) => {
-            console.log('Notification sent successfully:', response);
+    // Set the VAPID key for secure push notification delivery
+    messaging.getToken({ vapidKey: 'YOUR_VAPID_KEY' })
+        .then((currentToken) => {
+            if (currentToken) {
+                console.log('VAPID Token:', currentToken);
+            } else {
+                console.log('No registration token available.');
+            }
         })
-        .catch((error) => {
-            console.error('Error sending notification:', error);
+        .catch((err) => {
+            console.log('An error occurred while retrieving token. ', err);
         });
-}
 
+    // Function to send push notification
+    function sendPushNotification(title, imageUrl) {
+        // Prepare the notification payload
+        const notification = {
+            title: title,
+            imageUrl: imageUrl,
+            // Add any other notification properties as needed
+        };
+
+        // Prepare the FCM message
+        const message = {
+            notification: notification,
+            // Add any other message properties as needed
+            topic: 'news_updates', // Specify the topic to which the notification will be sent
+        };
+
+        // Send the FCM message
+        messaging.send(message)
+            .then((response) => {
+                console.log('Notification sent successfully:', response);
+            })
+            .catch((error) => {
+                console.error('Error sending notification:', error);
+            });
+    }
 
     // Function to send notifications for each news update
-    function sendNotificationsForNewsUpdates(querySnapshot) {
+    async function sendNotificationsForNewsUpdates(querySnapshot) {
         // Loop through each news article in the Firestore collection
         querySnapshot.forEach((doc) => {
             const newsData = doc.data();
