@@ -16,40 +16,20 @@
 </main>
 <footer></footer>
 <!-- Your JavaScript code -->
-<script type="module">
-    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
-    import { getFirestore, collection, query, orderBy, getDocs } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
-    import { getMessaging } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-messaging.js';
-
-    // Initialize Firebase
-    const firebaseConfig = {
+  const firebaseConfig = {
         apiKey: "AIzaSyBEw7edw-jRq47N_d1fJUvBSVnROJ6eCcE",
         authDomain: "messanger-817c9.firebaseapp.com",
         projectId: "messanger-817c9",
         storageBucket: "messanger-817c9.appspot.com",
         messagingSenderId: "678307855723",
-        appId: "1:678307855723:web:ac21ee338a71dd34f9602e",
-        measurementId: "G-measurement-id" // You can remove this if not using Analytics
+        appId: "1:678307855723:web:ac21ee338a71dd34f9602e"
     };
     
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
     const messaging = getMessaging(app);
 
-    // Set the VAPID key for secure push notification delivery
-    messaging.getToken({ vapidKey: 'YOUR_VAPID_KEY' })
-        .then((currentToken) => {
-            if (currentToken) {
-                console.log('VAPID Token:', currentToken);
-            } else {
-                console.log('No registration token available.');
-            }
-        })
-        .catch((err) => {
-            console.log('An error occurred while retrieving token. ', err);
-        });
-
-    // Function to send push notification
+    // Function to send push notification using Firebase Cloud Messaging (FCM)
     function sendPushNotification(title, imageUrl) {
         // Prepare the notification payload
         const notification = {
@@ -76,7 +56,7 @@
     }
 
     // Function to send notifications for each news update
-    async function sendNotificationsForNewsUpdates(querySnapshot) {
+    function sendNotificationsForNewsUpdates(querySnapshot) {
         // Loop through each news article in the Firestore collection
         querySnapshot.forEach((doc) => {
             const newsData = doc.data();
