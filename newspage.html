@@ -35,7 +35,7 @@
     const db = getFirestore(app);
     const messaging = getMessaging(app);
 
-   function sendPushNotification(title, imageUrl) {
+  function sendPushNotification(title, imageUrl) {
     // Prepare the notification payload
     const notification = {
         title: title,
@@ -51,7 +51,7 @@
     };
 
     // Send the FCM message
-    messaging.sendMessage(message)
+    messaging.send(message)
         .then((response) => {
             console.log('Notification sent successfully:', response);
         })
