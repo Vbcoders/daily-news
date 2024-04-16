@@ -34,54 +34,53 @@
     const messaging = getMessaging(app);
     let querySnapshot; // Define querySnapshot at a broader scope
 
-  // Function to send push notification using Firebase Cloud Messaging (FCM)
-function sendPushNotification(title, imageUrl) {
-    // Prepare the notification payload
-    const notification = {
-        title: title,
-        imageUrl: imageUrl,
-        // Add any other notification properties as needed
-    };
-
-    // Prepare the FCM message
-    const message = {
-        data: {
+    // Function to send push notification using Firebase Cloud Messaging (FCM)
+    function sendPushNotification(title, imageUrl) {
+        // Prepare the notification payload
+        const notification = {
             title: title,
             imageUrl: imageUrl,
-            // Add any other data properties as needed
-        },
-    };
+            // Add any other notification properties as needed
+        };
+
+        // Prepare the FCM message
+        const message = {
+            data: {
+                title: title,
+                imageUrl: imageUrl,
+                // Add any other data properties as needed
+            },
+        };
+
+        // Get the FCM token for the current device
+        getToken().then((currentToken) => {
+            if (currentToken) {
+                // Send the FCM message to the device with the current token
+                messaging.sendToDevice(currentToken, message)
+                    .then((response) => {
+                        console.log('Notification sent successfully:', response);
+                    })
+                    .catch((error) => {
+                        console.error('Error sending notification:', error);
+                    });
+            } else {
+                console.error('No registration token available. Request permission to generate one.');
+            }
+        }).catch((error) => {
+            console.error('An error occurred while retrieving token. ', error);
+        });
+    }
 
     // Get the FCM token for the current device
-    getToken().then((currentToken) => {
-        if (currentToken) {
-            // Send the FCM message to the device with the current token
-            messaging.sendToDevice(currentToken, message)
-                .then((response) => {
-                    console.log('Notification sent successfully:', response);
-                })
-                .catch((error) => {
-                    console.error('Error sending notification:', error);
-                });
-        } else {
-            console.error('No registration token available. Request permission to generate one.');
+    async function getToken() {
+        try {
+            const currentToken = await messaging.getToken();
+            return currentToken;
+        } catch (error) {
+            console.error('An error occurred while retrieving token. ', error);
+            throw error;
         }
-    }).catch((error) => {
-        console.error('An error occurred while retrieving token. ', error);
-    });
-}
-
-// Get the FCM token for the current device
-async function getToken() {
-    try {
-        const currentToken = await messaging.getToken();
-        return currentToken;
-    } catch (error) {
-        console.error('An error occurred while retrieving token. ', error);
-        throw error;
     }
-}
-
 
     // Function to send notifications for each news update
     async function sendNotificationsForNewsUpdates() {
